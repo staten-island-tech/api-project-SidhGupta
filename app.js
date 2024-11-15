@@ -1,14 +1,17 @@
+const URL =   "https://pokeapi.co/api/v2/pokemon/ditto"
+
 
 async function getData(){
     //fetch returns a promise 
     try {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
+        const response = await fetch("URL");
         // gaurd clause
+
         if(response.status != 200){
             throw new Error(response);
     } else {
         const data = await response.json();
-        console.log(data);
+        console.log(response);
         document.querySelector("h1").textContent = data.name;
     }
 }   catch (error) {
@@ -22,4 +25,5 @@ async function getData(){
     console.log(data);
 }
 
-getData();
+getData(URL);
+    // gaurd clause);
