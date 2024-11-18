@@ -1,4 +1,4 @@
-const URL =   "https://pokeapi.co/api/v2/pokemon/ditto"
+const URL =   " https://api.pokemontcg.io/v2/cards?q=name:gardevoir"
 
 
 async function getData(){
