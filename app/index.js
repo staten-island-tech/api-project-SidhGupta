@@ -1,10 +1,9 @@
-const URL =   " https://api.pokemontcg.io/v2/cards?q=name:gardevoir"
-
-
+const url = "https://api.pokemontcg.io/v2/cards"
+import "./style.css"
 async function getData(){
     //fetch returns a promise 
     try {
-        const response = await fetch(URL);
+        const response = await fetch(url);
         // gaurd clause
 
         if(response.status != 200){
@@ -12,17 +11,13 @@ async function getData(){
     } else {
         const data = await response.json();
         console.log(data);
-        document.querySelector("h1").textContent = data.name;
+        document.querySelector("h1").textContent = data.data;
     }
 }   catch (error) {
 
         console.log(error);
-        alert("sory could not find that Poket Moster")
+        alert("sorry could not find that Poket Moster")
     }
-
-    
-    const data = await response.json();
-    console.log(data);
 }
 
 getData();
