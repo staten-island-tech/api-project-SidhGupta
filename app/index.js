@@ -16,9 +16,9 @@ async function getData(){
 }   catch (error) {
 
         console.log(error);
-        alert("sorry could not find that Poket Moster")
+        alert("sorry could not find that Poket Monster")
     }
 }
 
-getData();
+getData(url);
     // gaurd clause);
