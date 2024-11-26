@@ -1,4 +1,5 @@
 import "./style.css";
+import { DOMSelectors } from "../dom";
 const url = "https://api.pokemontcg.io/v2/cards";
 
 // Fetch and handle data from the API
@@ -27,15 +28,16 @@ async function getData(url) {
 function createCards(cards) {
     cards.forEach(card => {
         const legalities = card.legalities ? Object.keys(card.legalities).join(", ") : "Unknown";
-        const evolvesTo = card.evolvesTo ? card.evolvesTo : "N/A";
+        const evolvesTo = card.evolvesTo ? card.evolvesTo : "Final Evolution";
 
-        document.querySelector("#container").insertAdjacentHTML('beforeend', `
-            <div class="card">
-                <h2>${card.name}</h2>
-                <img src="${card.images.small}" alt="${card.name}">
-                <h3>Legality: ${legalities}</h3>
-                <h3>Evolves to: ${evolvesTo}</h3>
-                <h3>Price based off of MSRP: ${subtypes}<h3>
+        DOMSelectors.box.insertAdjacentHTML('beforeend', `
+              <div class="card w-72 bg-blue-500 border-4 border-yellow-500 shadow-xl transform transition-transform hover:scale-105 margin:10px">
+                <h1 class="text-2xl font-bold text-yellow-500 text-center mb-4">${card.name}</h1>
+                <img src="${card.images.small}" alt="${card.name}" class="w-130% h-130% h-auto rounded-lg mb-4"> 
+                <button> 
+                <h3  class="font-bold text-yellow-300 text-center mb-4"> Legality: ${legalities}</h3>
+                <h3 class="font-bold text-yellow-300 text-center mb-4">Evolves to: ${evolvesTo}</h3>
+
                 
 
             </div>
@@ -45,8 +47,7 @@ function createCards(cards) {
 
 // Function to call createCards and insert it into the container
 function displayCards(data) {
-    const container = document.getElementById("container");
-    container.innerHTML = ''; // Clear existing cards
+    DOMSelectors.innerHTML = ''; // Clear existing cards
     createCards(data.data);   // Pass cards data to the createCards function
 }
 
