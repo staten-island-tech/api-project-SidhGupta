@@ -35,6 +35,9 @@ function createCards(cards) {
                 <img src="${card.images.small}" alt="${card.name}">
                 <h3>Legality: ${legalities}</h3>
                 <h3>Evolves to: ${evolvesTo}</h3>
+                <h3>Price based off of MSRP: ${subtypes}<h3>
+                
+
             </div>
         `);
     });
