@@ -1,5 +1,6 @@
 import "./style.css";
 import { DOMSelectors } from "../dom";
+
 const url = "https://api.pokemontcg.io/v2/cards";
 
 // Fetch and handle data from the API
@@ -20,7 +21,7 @@ async function getData(url) {
         displayCards(data);
     } catch (error) {
         console.error(error);
-        alert("Sorry, could not find that Pokemon!");
+        alert("Sorry, could not find that Pokemon Or you may have to wait a minute for the API to load!");
     }
 }
 
@@ -31,14 +32,24 @@ function createCards(cards) {
         const evolvesTo = card.evolvesTo ? card.evolvesTo : "Final Evolution";
 
         DOMSelectors.box.insertAdjacentHTML('beforeend', `
-            <div class="card w-72 bg-blue-500 border-4 border-yellow-500 shadow-xl transform transition-transform hover:scale-105 margin:10px relative" data-id="${card.id}">
+            <div class="card w-72 bg-blue-500 border-4 border-yellow-500 shadow-xl transform transition-transform hover:scale-105 margin:10px relative flex flex-col justify-between p-4">
                 <h1 class="text-2xl font-bold text-yellow-500 text-center mb-4">${card.name}</h1>
-                <img src="${card.images.small}" alt="${card.name}" class="w-130% h-130% h-auto rounded-lg mb-4"> 
-                <button class="center-btn p-2 bg-yellow-500 text-white rounded-full absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                    View Details
-                </button>
-                <h3 class="font-bold text-yellow-300 text-center mb-4"> Legality: ${legalities}</h3>
-                <h3 class="font-bold text-yellow-300 text-center mb-4"> Evolves to: ${evolvesTo}</h3>
+                <img src="${card.images.small}" alt="${card.name}" class="w-full h-auto rounded-lg mb-4"> 
+                
+                <div class="content">
+                    <h3 class="font-bold text-yellow-300 text-center mb-4"> Legality: ${legalities}</h3>
+                    <h3 class="font-bold text-yellow-300 text-center mb-4"> Evolves to: ${evolvesTo}</h3>
+                </div>
+
+                <!-- Buttons are inside a container for proper spacing -->
+                <div class="button-container flex justify-center gap-4">
+                    <button class="center-btn p-2 bg-yellow-500 text-white rounded-full">
+                        View Details
+                    </button>
+                    <button class="go-back-btn p-2 bg-red-500 text-white rounded-full hidden">
+                        Go Back
+                    </button>
+                </div>
             </div>
         `);
     });
@@ -47,8 +58,15 @@ function createCards(cards) {
     document.querySelectorAll(".center-btn").forEach(button => {
         button.addEventListener("click", (e) => {
             const card = e.target.closest(".card");
-            centerCard(card);
-            focusedCard(card )
+            showDetails(card);
+        });
+    });
+
+    // Add event listeners to the "Go Back" buttons
+    document.querySelectorAll(".go-back-btn").forEach(button => {
+        button.addEventListener("click", (e) => {
+            const card = e.target.closest(".card");
+            hideDetails(card);
         });
     });
 }
@@ -59,29 +77,72 @@ function displayCards(data) {
     createCards(data.data);   // Pass cards data to the createCards function
 }
 
+// Show detailed view and hide the normal view
+function showDetails(card) {
+    const goBackButton = card.querySelector(".go-back-btn");
+    const viewButton = card.querySelector(".center-btn");
+    const content = card.querySelector(".content");
+
+    // Hide the View Details button and show the Go Back button
+    viewButton.classList.add("hidden");
+    goBackButton.classList.remove("hidden");
+
+    // Add content for the detailed view (optional: show more detailed info here)
+
+    // Optionally, you can enlarge the card and show detailed info (this is done in the focusedCard function)
+    centerCard(card);
+    focusedCard(card);
+}
+
+// Hide detailed view and show the normal view again
+function hideDetails(card) {
+    const goBackButton = card.querySelector(".go-back-btn");
+    const viewButton = card.querySelector(".center-btn");
+    const content = card.querySelector(".content");
+
+    // Hide the Go Back button and show the View Details button
+    goBackButton.classList.add("hidden");
+    viewButton.classList.remove("hidden");
+
+    // Reset the content visibility
+    content.classList.remove("opacity-0"); // Show content again
+
+    // Reset the card view (scale, opacity)
+    resetCardView(card);
+}
+
 // Center and enlarge the selected card
 function centerCard(card) {
     // Make all other cards opaque
     const allCards = document.querySelectorAll(".card");
     allCards.forEach(c => {
         if (c !== card) {
-            c.style.opacity = 0.2;
-        } 
+            c.style.opacity = 0.3; // Set opacity to make other cards fade
+        } else {
+            c.style.opacity = 1; // Ensure the selected card is fully visible
+        }
     });
-
 }
 
 function focusedCard(card) {
     const allCards = document.querySelectorAll(".card");
     allCards.forEach(c => {
-        if (c == card) {
-            c.style.scale = 2;
-        } 
+        if (c === card) {
+            c.style.transform = "scale(2)"; // Correct way to apply scaling with transform
+            c.style.zIndex = 10; // Optional: make sure the focused card is above others
+        } else {
+            c.style.transform = "scale(1)"; // Reset scale for other cards
+            c.style.zIndex = 1; // Reset the z-index for other cards
+        }
     });
-
 }
 
-
+// Reset the card view to normal (when going back)
+function resetCardView(card) {
+    card.style.transform = "scale(1)"; // Reset card scale
+    const card = e.target.all(".card");  card.style.opacity = 1; // Reset opacity to full visibility
+    card.style.zIndex = 1; // Reset z-index
+}
 
 // Fetch data from the API
 getData(url);
