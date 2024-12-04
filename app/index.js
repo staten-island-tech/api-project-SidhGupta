@@ -57,7 +57,7 @@ function createCards(cards) {
     // Add event listeners to the buttons
     document.querySelectorAll(".center-btn").forEach(button => {
         button.addEventListener("click", (e) => {
-            const card = e.target.closest(".card");
+            let card = e.target.closest(".card");
             showDetails(card);
         });
     });
@@ -65,7 +65,7 @@ function createCards(cards) {
     // Add event listeners to the "Go Back" buttons
     document.querySelectorAll(".go-back-btn").forEach(button => {
         button.addEventListener("click", (e) => {
-            const card = e.target.closest(".card");
+            let card = e.target.closest(".card");
             hideDetails(card);
         });
     });
@@ -104,8 +104,7 @@ function hideDetails(card) {
     goBackButton.classList.add("hidden");
     viewButton.classList.remove("hidden");
 
-    // Reset the content visibility
-    content.classList.remove("opacity-0"); // Show content again
+   
 
     // Reset the card view (scale, opacity)
     resetCardView(card);
@@ -114,7 +113,7 @@ function hideDetails(card) {
 // Center and enlarge the selected card
 function centerCard(card) {
     // Make all other cards opaque
-    const allCards = document.querySelectorAll(".card");
+    let allCards = document.querySelectorAll(".card");
     allCards.forEach(c => {
         if (c !== card) {
             c.style.opacity = 0.3; // Set opacity to make other cards fade
@@ -125,7 +124,7 @@ function centerCard(card) {
 }
 
 function focusedCard(card) {
-    const allCards = document.querySelectorAll(".card");
+    let allCards = document.querySelectorAll(".card");
     allCards.forEach(c => {
         if (c === card) {
             c.style.transform = "scale(2)"; // Correct way to apply scaling with transform
@@ -140,7 +139,8 @@ function focusedCard(card) {
 // Reset the card view to normal (when going back)
 function resetCardView(card) {
     card.style.transform = "scale(1)"; // Reset card scale
-    const card = e.target.all(".card");  card.style.opacity = 1; // Reset opacity to full visibility
+    let allCards = document.querySelectorAll(".card");
+    allCards.forEach((card) => card.style.opacity = 1); // Reset opacity to full visibility
     card.style.zIndex = 1; // Reset z-index
 }
 
