@@ -30,6 +30,8 @@ function createCards(cards) {
     cards.forEach(card => {
         const legalities = card.legalities ? Object.keys(card.legalities).join(", ") : "Unknown";
         const evolvesTo = card.evolvesTo ? card.evolvesTo : "Final Evolution";
+        const artist = card.artist ? card.artist : "Unknown"; 
+
 
         DOMSelectors.box.insertAdjacentHTML('beforeend', `
             <div class="card w-72 bg-blue-500 border-4 border-yellow-500 shadow-xl transform transition-transform hover:scale-105 margin:10px relative flex flex-col justify-between p-4">
@@ -39,6 +41,8 @@ function createCards(cards) {
                 <div class="content">
                     <h3 class="font-bold text-yellow-300 text-center mb-4"> Legality: ${legalities}</h3>
                     <h3 class="font-bold text-yellow-300 text-center mb-4"> Evolves to: ${evolvesTo}</h3>
+                    <h3 class="font-bold text-yellow-300 text-center mb-4" hidden> Artist: ${artist}</h3>
+
                 </div>
 
                 <!-- Buttons are inside a container for proper spacing -->
@@ -82,10 +86,14 @@ function showDetails(card) {
     const goBackButton = card.querySelector(".go-back-btn");
     const viewButton = card.querySelector(".center-btn");
     const content = card.querySelector(".content");
+    
+     
 
     // Hide the View Details button and show the Go Back button
     viewButton.classList.add("hidden");
+
     goBackButton.classList.remove("hidden");
+
 
     // Add content for the detailed view (optional: show more detailed info here)
 
