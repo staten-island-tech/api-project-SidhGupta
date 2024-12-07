@@ -1,5 +1,5 @@
 import "./style.css";
-import { DOMSelectors } from "../dom";
+import { DOMSelectors } from "./dom";
 
 const url = "https://api.pokemontcg.io/v2/cards";
 
