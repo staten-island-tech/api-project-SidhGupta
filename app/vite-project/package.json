@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "vite-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,12 +9,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^6.0.3"
+    "vite": "^6.0.1"
   },
-  "dependencies": {
-    "autoprefixer": "^10.4.20",
-    "daisyui": "^4.12.14",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.14"
-  }
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
