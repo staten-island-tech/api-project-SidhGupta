@@ -32,6 +32,7 @@ function createCards(cards) {
         const evolvesTo = card.evolvesTo ? card.evolvesTo : "Final Evolution";
         const artist = card.artist ? card.artist : "Unknown"; 
 
+
         DOMSelectors.box.insertAdjacentHTML('beforeend', `
             <div class="card w-72 bg-blue-500 border-4 border-yellow-500 shadow-xl transform transition-transform hover:scale-105 margin:10px relative flex flex-col justify-between p-4">
                 <h1 class="text-2xl font-bold text-yellow-500 text-center mb-4">${card.name}</h1>
@@ -40,7 +41,8 @@ function createCards(cards) {
                 <div class="content">
                     <h3 class="font-bold text-yellow-300 text-center mb-4"> Legality: ${legalities}</h3>
                     <h3 class="font-bold text-yellow-300 text-center mb-4"> Evolves to: ${evolvesTo}</h3>
-                    <h3 class="font-bold text-yellow-300 text-center mb-4 artist-info hidden"> Artist: ${artist}</h3>
+                    <h3 class="font-bold text-yellow-300 text-center mb-4" hidden> Artist: ${artist}</h3>
+
                 </div>
 
                 <!-- Buttons are inside a container for proper spacing -->
@@ -84,15 +86,18 @@ function showDetails(card) {
     const goBackButton = card.querySelector(".go-back-btn");
     const viewButton = card.querySelector(".center-btn");
     const content = card.querySelector(".content");
-
-    // Show detailed view content (unhide the artist)
-    content.querySelector(".artist-info").classList.remove("hidden");
+    
+     
 
     // Hide the View Details button and show the Go Back button
     viewButton.classList.add("hidden");
+
     goBackButton.classList.remove("hidden");
 
-    // Optionally, enlarge the card and show detailed info (this is done in the focusedCard function)
+
+    // Add content for the detailed view (optional: show more detailed info here)
+
+    // Optionally, you can enlarge the card and show detailed info (this is done in the focusedCard function)
     centerCard(card);
     focusedCard(card);
 }
@@ -107,8 +112,7 @@ function hideDetails(card) {
     goBackButton.classList.add("hidden");
     viewButton.classList.remove("hidden");
 
-    // Hide detailed content and show the basic details
-    content.querySelector(".artist-info").classList.add("hidden");
+   
 
     // Reset the card view (scale, opacity)
     resetCardView(card);
