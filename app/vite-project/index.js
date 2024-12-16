@@ -10,7 +10,7 @@ async function getData(url, type = '') {
 
         // If a type is selected, filter the API request by the type
         if (type) {
-            apiUrl = `${url}?types[]=${type}`; // Correct format for types[] query parameter
+            apiUrl = `${url}?types=${type}`; // Correct format for types[] query parameter
         }
 
         console.log('Request URL:', apiUrl);  // Debugging: check if URL is correct
@@ -111,7 +111,7 @@ function removeCards() {
 }
 
 // Create filter buttons with the same name, all of which remove the cards
-function createRemoveButtons() {
+function createRemoveButtons(data) {
     const filterContainer = DOMSelectors.filterContainer;
     filterContainer.innerHTML = '';  // Clear the filter container before adding new buttons
 
@@ -120,7 +120,7 @@ function createRemoveButtons() {
         "All Cards",
         "Fire",
         "Water",
-        "Grass",
+        "Grass",  // Only the "Grass" button will fetch and display the cards for now
         "Electric",
         "Psychic",
         "Fighting",
@@ -128,17 +128,23 @@ function createRemoveButtons() {
         "Dragon",
         "Fairy"
     ];
-
+    let pokemon = data.filter((poke) => poke.types.includes("Grass"));
+    pokemon.forEach((poke) => createCards(poke));
     // Create a button for each type
     types.forEach(type => {
         const button = document.createElement('button');
         button.textContent = type;
         button.classList.add('p-2', 'bg-red-500', 'text-white', 'rounded', 'hover:bg-red-600');
         
-        // Add event listener that just removes the cards (no API call)
-        button.addEventListener('click', () => {
-            removeCards();  // Clear the cards from the screen
-        });
+        // If the "Grass" button is clicked, remove cards and fetch grass type cards
+        
+        if (type === "Grass") {
+            button.addEventListener('click', () => {
+                removeCards();  // Clear the cards from the screen
+                getData("https://api.pokemontcg.io/v2/cards", "Grass");  // Fetch Grass type cards and display them
+                createCards(types);
+            });
+        }
 
         filterContainer.appendChild(button);
     });
@@ -202,4 +208,4 @@ function resetCardView(card) {
 
 // Initialize data and remove buttons
 getData(url); // Fetch all cards initially
-createRemoveButtons(); // Create the remove buttons for all Pokémon types
+createRemoveButtons(data); // Create the remove buttons for all Pokémon types
