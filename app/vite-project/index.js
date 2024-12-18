@@ -77,12 +77,12 @@ function createCards(cards) {
                 <div class="content">
                     <h3 class="font-bold text-yellow-300 text-center mb-4"> Legality: ${legalities}</h3>
                     <h3 class="font-bold text-yellow-300 text-center mb-4"> Evolves to: ${evolvesTo}</h3>
-                    <h3 class="font-bold text-yellow-300 text-center mb-4" hidden> Artist: ${artist}</h3>
+                    <h3 class="font-bold text-yellow-300 text-center mb-4 artist-name hidden"> Artist: ${artist}</h3>
                 </div>
 
                 <div class="button-container flex justify-center gap-4">
-                    <button class="center-btn p-2 bg-yellow-500 text-white rounded-full">
-                        View Details
+                    <button class="view-artist-btn p-2 bg-yellow-500 text-white rounded-full">
+                        View Artist
                     </button>
                     <button class="go-back-btn p-2 bg-red-500 text-white rounded-full hidden">
                         Go Back
@@ -93,10 +93,10 @@ function createCards(cards) {
     });
 
     // Add event listeners to the buttons
-    document.querySelectorAll(".center-btn").forEach(button => {
+    document.querySelectorAll(".view-artist-btn").forEach(button => {
         button.addEventListener("click", (e) => {
             let card = e.target.closest(".card");
-            showDetails(card);
+            showArtistDetails(card);
         });
     });
 
@@ -161,14 +161,18 @@ function removeCards() {
     cardContainer.innerHTML = '';  // Remove all cards (clear the container)
 }
 
-// Show detailed view and hide the normal view
-function showDetails(card) {
+// Show detailed view and reveal artist's name
+function showArtistDetails(card) {
     const goBackButton = card.querySelector(".go-back-btn");
-    const viewButton = card.querySelector(".center-btn");
+    const viewArtistButton = card.querySelector(".view-artist-btn");
+    const artistName = card.querySelector(".artist-name");
 
-    // Hide the View Details button and show the Go Back button
-    viewButton.classList.add("hidden");
+    // Hide the View Artist button and show the Go Back button
+    viewArtistButton.classList.add("hidden");
     goBackButton.classList.remove("hidden");
+
+    // Show the artist's name
+    artistName.classList.remove("hidden");
 
     centerCard(card);
     focusedCard(card);
@@ -177,10 +181,14 @@ function showDetails(card) {
 // Hide detailed view and show the normal view again
 function hideDetails(card) {
     const goBackButton = card.querySelector(".go-back-btn");
-    const viewButton = card.querySelector(".center-btn");
+    const viewArtistButton = card.querySelector(".view-artist-btn");
+    const artistName = card.querySelector(".artist-name");
+
+    // Hide the artist's name and go back to the normal view
+    artistName.classList.add("hidden");
 
     goBackButton.classList.add("hidden");
-    viewButton.classList.remove("hidden");
+    viewArtistButton.classList.remove("hidden");
 
     resetCardView(card);
 }
