@@ -3,6 +3,9 @@ import { DOMSelectors } from "./dom";
 
 const url = "https://api.pokemontcg.io/v2/cards";
 
+// Store all the fetched cards in a global variable for easy filtering
+let allCardsData = [];
+
 // Fetch and handle data from the API
 async function getData(url, type = '') {
     try {
@@ -31,8 +34,14 @@ async function getData(url, type = '') {
             return;
         }
 
-        // Update page with response data
-        displayCards(data.data); // Display the fetched cards
+        // Store the fetched data for filtering
+        allCardsData = data.data;
+        
+        // Display all cards initially or after fetching new data
+        displayCards(allCardsData);
+
+        // Create filter buttons after data is fetched
+        createRemoveButtons(allCardsData); // Pass the fetched data here to create filter buttons
 
     } catch (error) {
         console.error(error);
@@ -104,12 +113,6 @@ function displayCards(cards) {
     createCards(cards);   // Pass the fetched cards data to the createCards function
 }
 
-// Function to remove all current cards from the page
-function removeCards() {
-    const cardContainer = DOMSelectors.box;
-    cardContainer.innerHTML = '';  // Remove all cards (clear the container)
-}
-
 // Create filter buttons with the same name, all of which remove the cards
 function createRemoveButtons(data) {
     const filterContainer = DOMSelectors.filterContainer;
@@ -120,7 +123,7 @@ function createRemoveButtons(data) {
         "All Cards",
         "Fire",
         "Water",
-        "Grass",  // Only the "Grass" button will fetch and display the cards for now
+        "Grass",
         "Electric",
         "Psychic",
         "Fighting",
@@ -128,26 +131,34 @@ function createRemoveButtons(data) {
         "Dragon",
         "Fairy"
     ];
-    let pokemon = data.filter((poke) => poke.types.includes("Grass"));
-    pokemon.forEach((poke) => createCards(poke));
+
     // Create a button for each type
     types.forEach(type => {
         const button = document.createElement('button');
         button.textContent = type;
         button.classList.add('p-2', 'bg-red-500', 'text-white', 'rounded', 'hover:bg-red-600');
         
-        // If the "Grass" button is clicked, remove cards and fetch grass type cards
-        
-        if (type === "Grass") {
-            button.addEventListener('click', () => {
-                removeCards();  // Clear the cards from the screen
-                getData("https://api.pokemontcg.io/v2/cards", "Grass");  // Fetch Grass type cards and display them
-                createCards(types);
-            });
-        }
+        // Fetch data for the selected type and display cards
+        button.addEventListener('click', () => {
+            removeCards();  // Clear the cards from the screen
+            if (type === "All Cards") {
+                // Show all cards
+                displayCards(allCardsData);
+            } else {
+                // Filter and display only the selected type of cards
+                const filteredCards = allCardsData.filter(card => card.types && card.types.includes(type));
+                displayCards(filteredCards);
+            }
+        });
 
         filterContainer.appendChild(button);
     });
+}
+
+// Remove all current cards from the page
+function removeCards() {
+    const cardContainer = DOMSelectors.box;
+    cardContainer.innerHTML = '';  // Remove all cards (clear the container)
 }
 
 // Show detailed view and hide the normal view
@@ -208,4 +219,3 @@ function resetCardView(card) {
 
 // Initialize data and remove buttons
 getData(url); // Fetch all cards initially
-createRemoveButtons(data); // Create the remove buttons for all Pokémon types
