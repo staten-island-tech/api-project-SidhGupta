@@ -225,5 +225,4 @@ function resetCardView(card) {
     card.style.zIndex = 1;
 }
 
-// Initialize data and remove buttons
-getData(url); // Fetch all cards initially
+getData(url); 
