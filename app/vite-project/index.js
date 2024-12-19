@@ -6,20 +6,6 @@ const url = "https://api.pokemontcg.io/v2/cards";
 // Store all the fetched cards in a global variable for easy filtering
 let allCardsData = [];
 
-// Mapping of Pokémon types to colors
-const typeColors = {
-    "Fire": "#F08030",    // Fire type - Orange
-    "Water": "#6890F0",   // Water type - Blue
-    "Grass": "#78C850",   // Grass type - Green
-    "Lightning": "#F8D030",// Lightning type - Yellow (formerly Electric)
-    "Psychic": "#F85888", // Psychic type - Purple
-    "Fighting": "#C03028",// Fighting type - Red
-    "Darkness": "#705848",// Darkness type - Dark Brown
-    "Dragon": "#7038F8",  // Dragon type - Purple
-    "Fairy": "#EE99AC",   // Fairy type - Pink
-    "All Cards": "#888",  // Default color for All Cards - Gray
-};
-
 // Fetch and handle data from the API
 async function getData(url, type = '') {
     try {
@@ -50,7 +36,7 @@ async function getData(url, type = '') {
 
         // Store the fetched data for filtering
         allCardsData = data.data;
-
+        
         // Display all cards initially or after fetching new data
         displayCards(allCardsData);
 
@@ -138,7 +124,7 @@ function createRemoveButtons(data) {
         "Fire",
         "Water",
         "Grass",
-        "Lightning", // Updated to "Lightning"
+        "Electric",
         "Psychic",
         "Fighting",
         "Darkness",
@@ -150,11 +136,8 @@ function createRemoveButtons(data) {
     types.forEach(type => {
         const button = document.createElement('button');
         button.textContent = type;
-        button.classList.add('p-2', 'text-white', 'rounded', 'hover:bg-opacity-80');
-
-        // Set the background color based on the Pokémon type
-        button.style.backgroundColor = typeColors[type] || "#888"; // Default to gray if type is not defined
-
+        button.classList.add('p-2', 'bg-red-500', 'text-white', 'rounded', 'hover:bg-red-600');
+        
         // Fetch data for the selected type and display cards
         button.addEventListener('click', () => {
             removeCards();  // Clear the cards from the screen
@@ -242,4 +225,4 @@ function resetCardView(card) {
     card.style.zIndex = 1;
 }
 
-getData(url);  // Initialize the fetch of the data
+getData(url); 
