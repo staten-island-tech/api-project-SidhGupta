@@ -6,9 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/daisyui@1.13.0/dist/full.js"></script>
-    <h1>Pokemon Cards</h1>
+    <style>
+      /* Style for the main title */
+      h1#pokemon-title {
+        font-size: 4rem; /* Large font size */
+        color: #1e3a8a; /* Blue color */
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+    </style>
+    <title>Pokemon Cards</title>
   </head>
   <body>
+    <!-- Title at the top -->
+    <h1 id="pokemon-title">Pokemon Cards</h1>
+
     <!-- Filter buttons container -->
     <div id="filter-container" class="flex justify-center gap-4 p-4">
       <!-- Filter buttons will be dynamically inserted here -->
@@ -19,7 +32,6 @@
       <!-- Cards will be displayed here -->
     </div>
 
-    <h1 id="Pokemon Cards">Pokemon Cards</h1>
     <script type="module" src="/index.js"></script>
   </body>
 </html>

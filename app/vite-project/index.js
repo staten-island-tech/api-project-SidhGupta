@@ -124,7 +124,7 @@ function createRemoveButtons(data) {
         "Fire",
         "Water",
         "Grass",
-        "Electric",
+        "Lightning",  // Corrected "Electric" to "Lightning"
         "Psychic",
         "Fighting",
         "Darkness",
@@ -225,4 +225,4 @@ function resetCardView(card) {
     card.style.zIndex = 1;
 }
 
-getData(url); 
+getData(url);
